@@ -1,8 +1,7 @@
 #include "Game.hpp"
 
-bool Game::Initialize()
+void Game::Initialize()
 {
-    return true;
 }
 
 void Game::Run()

@@ -3,7 +3,7 @@
 class Game
 {
 public:
-    bool Initialize();
+    void Initialize();
     void Run();
     void Shutdown();
 };
