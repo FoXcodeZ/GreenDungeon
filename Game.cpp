@@ -4,7 +4,14 @@
 void Game::Initialize()
 {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_CreateWindowAndRenderer("Green Dungeon", 800, 600, 0, &m_window, &m_renderer);
+
+    const SDL_DisplayMode* displayMode = SDL_GetCurrentDisplayMode(1);
+    const int width = displayMode->w;
+    const int height = displayMode->h;
+    std::cout << "Width: " << width << " Height: " << height << std::endl;
+
+    SDL_CreateWindowAndRenderer("Green Dungeon", width, height, SDL_WINDOW_BORDERLESS, &m_window, &m_renderer);
+    SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN);
     m_isRunning = true;
 }
 
