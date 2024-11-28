@@ -5,12 +5,13 @@ void Game::Initialize()
 {
     SDL_Init(SDL_INIT_VIDEO);
 
-    const SDL_DisplayMode* displayMode = SDL_GetCurrentDisplayMode(1);
-    const int width = displayMode->w;
-    const int height = displayMode->h;
+    SDL_DisplayMode displayMode;
+    SDL_GetCurrentDisplayMode(0, &displayMode);
+    const int width = displayMode.w;
+    const int height = displayMode.h;
     std::cout << "Width: " << width << " Height: " << height << std::endl;
 
-    SDL_CreateWindowAndRenderer("Green Dungeon", width, height, SDL_WINDOW_BORDERLESS, &m_window, &m_renderer);
+    SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_BORDERLESS, &m_window, &m_renderer);
     SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN);
     m_isRunning = true;
 }
@@ -25,7 +26,7 @@ void Game::Run()
     }
 }
 
-void Game::Shutdown()
+void Game::Shutdown() const
 {
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
@@ -39,12 +40,12 @@ void Game::ProcessInput()
     {
         switch (event.type)
         {
-            case SDL_EVENT_QUIT:
+            case SDL_QUIT:
                 m_isRunning = false;
             break;
 
-            case SDL_EVENT_KEY_DOWN:
-                if (event.key.scancode == SDL_SCANCODE_ESCAPE)
+            case SDL_KEYDOWN:
+                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
                 {
                     m_isRunning = false;
                 }
@@ -60,9 +61,14 @@ void Game::Update()
 {
 }
 
-void Game::Render()
+void Game::Render() const
 {
     SDL_SetRenderDrawColor(m_renderer, 10, 151, 176, 255);
     SDL_RenderClear(m_renderer);
+
+    SDL_SetRenderDrawColor(m_renderer, 255, 20, 20, 255);
+    SDL_Rect player = {100, 100, 200, 200};
+    SDL_RenderFillRect(m_renderer, &player);
+
     SDL_RenderPresent(m_renderer);
 }
